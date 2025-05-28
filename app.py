@@ -17,7 +17,7 @@ def admin_required(f):
 app = Flask(__name__)
 app.secret_key = 'supersecret123'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:rootFahad@localhost/info_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:fahad125dbconnect@localhost/info_db'
 db = SQLAlchemy(app)
 
 login_manager = LoginManager()
