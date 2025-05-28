@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoFriendly - Sustainable Living</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <header class="bg-success text-white text-center py-5 fade-in">
+    <h1>EcoFriendly</h1>
+    <p>Join us in building a greener, cleaner future.</p>
+    <a href="#products" class="btn btn-light mt-3">Shop Now</a>
+  </header>
+
+  <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img src="static/Images/logo1.png" alt="EcoFriendly Logo" width="40" height="40" class="d-inline-block align-text-top">
+        EcoFriendly
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#eco-friendly">Eco-Friendly Tips</a></li>
+          <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
+          <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
+          <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link" href="#subscribe">Subscribe</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+          <li class="nav-item"><a href="/login" class="btn btn-outline-success">Admin Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section id="about" class="py-5 fade-in">
+    <div class="container text-center">
+      <h2>About Us</h2>
+      <p>At EcoFriendly, we are passionate about providing eco-friendly products that help reduce waste and preserve our planet. Our goal is to offer sustainable solutions that make it easier for individuals and businesses alike to live a more environmentally conscious life.</p>
+      
+      <div class="row mt-5">
+        <!-- Our Vision Section -->
+        <div class="col-md-4">
+          <h4>Our Vision</h4>
+          <p>We envision a world where sustainability is the norm, not the exception. Our vision is to become a leader in the eco-friendly product market, inspiring others to reduce their environmental footprint.</p>
+        </div>
+  
+        <!-- Our Values Section -->
+        <div class="col-md-4">
+          <h4>Our Values</h4>
+          <ul class="list-unstyled">
+            <li><strong>Integrity:</strong> We maintain transparency and honesty in every step of our process.</li>
+            <li><strong>Innovation:</strong> We continually innovate to provide products that meet the needs of a sustainable future.</li>
+            <li><strong>Community:</strong> We believe in the power of collaboration and work closely with other like-minded businesses.</li>
+          </ul>
+        </div>
+  
+        <!-- Our Commitment Section -->
+        <div class="col-md-4">
+          <h4>Our Commitment</h4>
+          <p>EcoFriendly is dedicated to offering products that are not only beneficial to the environment but also affordable. From production to packaging, we make eco-conscious choices every step of the way.</p>
+        </div>
+      </div>
+  
+      <!-- Call to Action Section -->
+      <div class="mt-5">
+        <h3>Join the Movement</h3>
+        <p>Ready to make a difference? Explore our range of eco-friendly products and help us build a greener future today.</p>
+        <a href="#products" class="btn btn-success">Shop Our Products</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="eco-friendly">
+    <h2>Be Eco-Friendly!</h2>
+    <p>Making small changes in your daily life can help save the environment. Here are some simple tips:</p>
+    <div class="tips">
+      <div class="tip">
+        <h3>🌱 Reduce Waste</h3>
+        <p>Use reusable bags, bottles, and containers instead of single-use plastics.</p>
+      </div>
+      <div class="tip">
+        <h3>💡 Save Energy</h3>
+        <p>Turn off lights and unplug devices when not in use. Switch to energy-efficient appliances.</p>
+      </div>
+      <div class="tip">
+        <h3>🚲 Sustainable Travel</h3>
+        <p>Walk, bike, or use public transport whenever possible to reduce your carbon footprint.</p>
+      </div>
+      <div class="tip">
+        <h3>🌍 Go Green</h3>
+        <p>Plant trees and support organizations working to combat climate change.</p>
+      </div>
+    </div>
+    <p class="products-intro">Below are our products to help keep the environment clean and eco-friendly:</p>
+  </section>
+  
+
+  <section id="products" class="py-5 bg-light fade-in">
+    <div class="container text-center">
+      <h2>Our Products</h2>
+      <div class="row">
+        {% for product in products %}
+          <div class="col-md-4 product-item mb-4">
+            <div class="card h-100">
+              <img src="{{ url_for('static', filename=product.image_url or 'images/default.jpg') }}"
+                alt="{{ product.name }}" class="card-img-top img-fluid">
+              <div class="card-body">
+                <h4 class="card-title">{{ product.name }}</h4>
+                <p class="card-text">{{ product.description }}</p>
+                <p><strong>${{ '%.2f'|format(product.price) }}</strong></p>
+                <button class="add-to-cart-btn"
+                        data-id="{{ product.id }}"
+                        data-name="{{ product.name }}"
+                        data-price="{{ product.price }}">
+                  <i class="fas fa-cart-plus"></i> Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+
+  <section id="testimonials" class="py-5 fade-in">
+    <div class="container text-center">
+      <h2>What Our Customers Say</h2>
+      <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <blockquote class="blockquote">"EcoFriendly has transformed the way I shop and live. Amazing products!"</blockquote>
+            <figcaption class="blockquote-footer">Jane Doe</figcaption>
+          </div>
+          <div class="carousel-item">
+            <blockquote class="blockquote">"I love their bamboo utensils! They're stylish and sustainable."</blockquote>
+            <figcaption class="blockquote-footer">John Smith</figcaption>
+          </div>
+          <div class="carousel-item">
+            <blockquote class="blockquote">"Their reusable bags are durable and a must-have for shopping."</blockquote>
+            <figcaption class="blockquote-footer">Emily Johnson</figcaption>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+  </section>
+  
+  <section id="faq" class="py-5 fade-in">
+    <div class="container">
+      <h2 class="text-center">Frequently Asked Questions</h2>
+      <div class="accordion" id="faqAccordion" aria-label="FAQ Section">
+        <!-- Question 1 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              What is EcoFriendly's mission?
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              EcoFriendly is committed to providing sustainable products that help reduce waste and promote environmental consciousness.
+            </div>
+          </div>
+        </div>
+  
+        <!-- Question 2 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Do you ship internationally?
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Yes, we offer international shipping to selected countries. Please check our shipping policy for details.
+            </div>
+          </div>
+        </div>
+  
+        <!-- Question 3 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingThree">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              Are the products really eco-friendly?
+            </button>
+          </h2>
+          <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Yes, all our products are made from sustainable materials that help reduce waste and promote environmental conservation.
+            </div>
+          </div>
+        </div>
+  
+        <!-- Question 4 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingFour">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+              Can I return an item if I'm not satisfied?
+            </button>
+          </h2>
+          <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              We offer a 30-day return policy for unused and unopened items. Please refer to our return policy for more information.
+            </div>
+          </div>
+        </div>
+  
+        <!-- Question 5 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingFive">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+              Are the products safe for the environment?
+            </button>
+          </h2>
+          <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Absolutely! We prioritize safety in every product we offer, ensuring that our materials and manufacturing processes are environmentally safe and sustainable.
+            </div>
+          </div>
+        </div>
+  
+        <!-- Question 6 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingSix">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+              How can I track my order?
+            </button>
+          </h2>
+          <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Once your order is shipped, you will receive an email with tracking information. You can also log into your account on our website to view your order status.
+            </div>
+          </div>
+        </div>
+  
+        <!-- Question 7 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingSeven">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+              Do you offer gift cards?
+            </button>
+          </h2>
+          <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Yes! We offer digital gift cards that you can purchase and send to loved ones. Visit our gift card page to learn more.
+            </div>
+          </div>
+        </div>
+  
+        <!-- Question 8 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingEight">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+              Can I get a discount for bulk purchases?
+            </button>
+          </h2>
+          <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Yes, we offer discounts for bulk purchases. Please contact our sales team to inquire about special rates for bulk orders.
+            </div>
+          </div>
+        </div>
+  
+        <!-- Question 9 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingNine">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+              Are your products vegan-friendly?
+            </button>
+          </h2>
+          <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Many of our products are vegan-friendly, especially those that involve bamboo, cotton, and other plant-based materials. Check the individual product details for more information.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  <section id="subscribe" class="py-5 bg-light fade-in">
+    <div class="container text-center">
+      <h2>Stay Updated!</h2>
+      <p>Want to be the first to know about our upcoming eco-friendly products? Subscribe to our newsletter!</p>
+      <form id="subscribeForm" method="POST" action="/subscribe">
+        <div class="mb-3">
+          <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <button type="submit" class="btn btn-success">Subscribe</button>
+        <div id="subscribeSuccess" class="mt-3 text-success" style="display: none;">
+          Thank you for subscribing!
+        </div>
+    </form>    
+    </div>
+  </section>  
+
+  <section id="contact" class="py-5 bg-light fade-in">
+    <div class="container">
+      <h2>Contact Us</h2>
+      <form method="POST" action="/contact">
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" class="form-control" id="name" name="name" placeholder="Your Name">
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Your Email">
+        </div>
+        <div class="mb-3">
+          <label for="message" class="form-label">Message</label>
+          <textarea class="form-control" id="message" name="message" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Send Message</button>
+      </form>    
+    </div>
+  </section>
+
+  <!-- Cart Modal -->
+  <div class="modal fade" id="cartModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Your Cart</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="cartItems"></div>
+        <div class="modal-footer">
+          <strong>Total: $<span id="cartTotal">0.00</span></strong>
+          <button class="btn btn-success" onclick="checkout()">Checkout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart button (floating) -->
+  <button class="btn btn-success position-fixed bottom-0 start-0 m-4" onclick="openCart()" style="z-index:9999;">
+    🛒 Cart (<span id="cartCount">0</span>)
+  </button>
+
+
+  <button id="backToTop" class="btn" style="font-size: 18px;">⬆</button>
+
+
+  <footer class="bg-dark text-white py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h5>Follow Us</h5>
+          <div>
+            <a href="https://www.facebook.com/yourpage" class="text-white me-3" target="_blank"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://twitter.com/yourprofile" class="text-white me-3" target="_blank"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.instagram.com/yourprofile" class="text-white me-3" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.linkedin.com/in/yourprofile" class="text-white" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+  
+        <div class="col-md-6">
+          <h5>Contact Information</h5>
+          <p><i class="fas fa-envelope"></i> support@ecofriendly.com</p>
+          <p><i class="fas fa-phone-alt"></i> +1 234 567 890</p>
+          <p><i class="fas fa-map-marker-alt"></i> 123 Green St, Eco City</p>
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="col-md-6">
+          <h5>Legal</h5>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-white">Privacy Policy</a></li>
+            <li><a href="#" class="text-white">Terms of Service</a></li>
+          </ul>
+        </div>
+  
+      <!-- Eco Pledge -->
+      <div class="col-md-12 text-center mt-4">
+        <p>We pledge to continue supporting sustainable practices for a greener planet.</p>
+      </div>
+  
+      <!-- Copyright Info -->
+      <div class="col-md-12 text-center mt-4">
+        <p>&copy; 2024 EcoFriendly. All Rights Reserved. | All product images are for illustrative purposes only.</p>
+      </div>
+    </div>
+  </footer>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

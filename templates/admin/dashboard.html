@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard - EcoFriendly</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+  <nav class="navbar navbar-dark bg-success mb-4">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1">EcoFriendly Admin Dashboard</span>
+      <a href="/logout" class="btn btn-outline-light">Logout</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <h2 class="mb-3">➕ Add New Product</h2>
+    <form method="POST" action="/add_product" class="mb-5">
+      <div class="row g-2">
+        <div class="col-md-3">
+          <input type="text" name="name" class="form-control" placeholder="Name" required>
+        </div>
+        <div class="mb-3">
+          <label>Image URL</label>
+          <input type="text" class="form-control" name="image_url" placeholder="e.g. images/bag.jpeg">
+        </div>
+        <div class="col-md-4">
+          <input type="text" name="description" class="form-control" placeholder="Description" required>
+        </div>
+        <div class="col-md-2">
+          <input type="number" name="price" class="form-control" placeholder="Price" step="0.01" required>
+        </div>
+        <div class="col-md-2">
+          <button type="submit" class="btn btn-success w-100">Add Product</button>
+        </div>
+      </div>
+    </form>
+
+    <h2>📦 Products</h2>
+    <table class="table table-bordered table-striped">
+      <thead class="table-success">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price ($)</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in products %}
+        <tr>
+          <td>{{ product.id }}</td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.description }}</td>
+          <td>{{ product.price }}</td>
+          <td>
+            <a href="/edit_product/{{ product.id }}" class="btn btn-sm btn-primary">Edit</a>
+            <a href="/delete_product/{{ product.id }}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <hr>
+    
+    <h2>🧾 Orders</h2>
+    {% for order in orders.items %}
+      <div class="card mb-3">
+        <div class="card-header bg-secondary text-white">
+          Order #{{ order.id }} — {{ order.timestamp.strftime('%Y-%m-%d %H:%M') }}
+          <div class="mt-2">
+            <strong>Status:</strong>
+            <span class="badge 
+              {% if order.status == 'Pending' %} bg-warning text-dark 
+              {% elif order.status == 'On the Way' %} bg-info text-dark 
+              {% elif order.status == 'Fulfilled' %} bg-success 
+              {% else %} bg-secondary {% endif %}">
+              {{ order.status }}
+            </span>
+          </div>
+        </div>
+        <div class="card-body">
+          {% set items = order.items %}
+          <ul class="list-group">
+              {% for item in order.items %}
+                <li class="list-group-item d-flex justify-content-between">
+                  {{ item['name'] }} × {{ item['quantity'] }}
+                  <span>${{ '%.2f' | format(item['price'] * item['quantity']) }}</span>
+                </li>
+              {% endfor %}
+          </ul>
+          <div class="mt-2 text-end">
+            <strong>Total: ${{ '%.2f' | format(order.total) }}</strong>
+          </div>
+          <form method="POST" action="{{ url_for('update_status', order_id=order.id) }}">
+            <div class="input-group mt-3">
+              <select name="status" class="form-select">
+                <option {% if order.status == 'Pending' %}selected{% endif %}>Pending</option>
+                <option {% if order.status == 'On the Way' %}selected{% endif %}>On the Way</option>
+                <option {% if order.status == 'Fulfilled' %}selected{% endif %}>Fulfilled</option>
+              </select>
+              <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    {% endfor %}
+      <nav aria-label="Order pagination">
+        <ul class="pagination justify-content-center mt-4">
+          {% if orders.has_prev %}
+            <li class="page-item">
+              <a class="page-link" href="{{ url_for('admin_dashboard', page=orders.prev_num) }}">Previous</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">Previous</span></li>
+          {% endif %}
+
+          <li class="page-item disabled">
+            <span class="page-link">Page {{ orders.page }} of {{ orders.pages }}</span>
+          </li>
+
+          {% if orders.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="{{ url_for('admin_dashboard', page=orders.next_num) }}">Next</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">Next</span></li>
+          {% endif %}
+        </ul>
+      </nav>
+
+    <hr>
+
+    <h2>📩 Newsletter Subscriptions</h2>
+    <ul class="list-group mb-4">
+      {% for sub in subs %}
+        <li class="list-group-item">{{ sub.email }}</li>
+      {% endfor %}
+    </ul>
+
+    <hr>
+
+    <h2>📬 Contact Messages</h2>
+    {% for msg in messages %}
+      <div class="card mb-3">
+        <div class="card-header bg-success text-white">
+          {{ msg.name }} - {{ msg.email }}
+        </div>
+        <div class="card-body">
+          <p class="card-text">{{ msg.message }}</p>
+        </div>
+      </div>
+    {% endfor %}
+
+  </div>
+
+</body>
+</html>
