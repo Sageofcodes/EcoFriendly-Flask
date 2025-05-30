@@ -16,6 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `contact_log`
+--
+
+DROP TABLE IF EXISTS `contact_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `contact_log` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `logged_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `contact_log`
+--
+
+LOCK TABLES `contact_log` WRITE;
+/*!40000 ALTER TABLE `contact_log` DISABLE KEYS */;
+INSERT INTO `contact_log` VALUES (1,'Leo','2025-05-30 04:58:04');
+/*!40000 ALTER TABLE `contact_log` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `contact_messages`
 --
 
@@ -28,7 +53,7 @@ CREATE TABLE `contact_messages` (
   `email` varchar(255) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,9 +62,27 @@ CREATE TABLE `contact_messages` (
 
 LOCK TABLES `contact_messages` WRITE;
 /*!40000 ALTER TABLE `contact_messages` DISABLE KEYS */;
-INSERT INTO `contact_messages` VALUES (1,'Fahad Rafaqat','fahadrafaqat9@gmail.com','3wyey3q37q3q73q'),(2,'Fahad Rafaqat','fahadrafaqat342@gmail.com','it\'s working'),(3,'Fahad Rafaqat','fahadrafaqat97@gmail.com','working'),(4,'Fahad Rafaqat','pmon3209@gmail.com','all done');
+INSERT INTO `contact_messages` VALUES (1,'Fahad Rafaqat','fahadrafaqat9@gmail.com','3wyey3q37q3q73q'),(2,'Fahad Rafaqat','fahadrafaqat342@gmail.com','it\'s working'),(3,'Fahad Rafaqat','fahadrafaqat97@gmail.com','working'),(4,'Fahad Rafaqat','pmon3209@gmail.com','all done'),(5,'Leo','Leo97@gmail.com','Nice one!');
 /*!40000 ALTER TABLE `contact_messages` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `after_contact_insert` AFTER INSERT ON `contact_messages` FOR EACH ROW BEGIN
+    INSERT INTO contact_log (name)
+    VALUES (NEW.name);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `newsletter_subscription`
@@ -107,7 +150,7 @@ CREATE TABLE `orders` (
   `timestamp` datetime DEFAULT NULL,
   `status` varchar(50) DEFAULT 'Pending',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -116,7 +159,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,'{\"1\":{\"name\":\"Reusable Bags\",\"price\":10,\"quantity\":2},\"5\":{\"name\":\"Reusable Bottles\",\"price\":12,\"quantity\":4}}',68,'2025-04-23 21:23:39','Fulfilled'),(2,'{\"4\":{\"name\":\"Eco-friendly Straws\",\"price\":8,\"quantity\":3},\"7\":{\"name\":\"Bamboo Toothbrush\",\"price\":5,\"quantity\":2}}',34,'2025-04-23 21:25:20','Fulfilled'),(3,'{\"2\":{\"name\":\"Bamboo Utensils\",\"price\":13,\"quantity\":3}}',39,'2025-05-01 13:03:39','Fulfilled'),(4,'{\"2\":{\"name\":\"Bamboo Utensils\",\"price\":13,\"quantity\":1},\"5\":{\"name\":\"Reusable Bottles\",\"price\":12,\"quantity\":1},\"6\":{\"name\":\"Organic Towels\",\"price\":20,\"quantity\":1}}',45,'2025-05-27 06:21:40','On the Way'),(5,'{\"7\":{\"name\":\"Bamboo Toothbrush\",\"price\":5,\"quantity\":2},\"9\":{\"name\":\"Solar Lamp\",\"price\":18,\"quantity\":1}}',28,'2025-05-27 07:48:23','On the Way'),(6,'{\"4\":{\"name\":\"Eco-friendly Straws\",\"price\":8,\"quantity\":1},\"6\":{\"name\":\"Organic Towels\",\"price\":20,\"quantity\":1}}',28,'2025-05-27 07:48:34','Pending'),(7,'{\"11\":{\"name\":\"aaaa\",\"price\":10,\"quantity\":4}}',40,'2025-05-27 14:03:41','Pending');
+INSERT INTO `orders` VALUES (1,'{\"1\":{\"name\":\"Reusable Bags\",\"price\":10,\"quantity\":2},\"5\":{\"name\":\"Reusable Bottles\",\"price\":12,\"quantity\":4}}',68,'2025-04-23 21:23:39','Fulfilled'),(2,'{\"4\":{\"name\":\"Eco-friendly Straws\",\"price\":8,\"quantity\":3},\"7\":{\"name\":\"Bamboo Toothbrush\",\"price\":5,\"quantity\":2}}',34,'2025-04-23 21:25:20','Fulfilled'),(3,'{\"2\":{\"name\":\"Bamboo Utensils\",\"price\":13,\"quantity\":3}}',39,'2025-05-01 13:03:39','Fulfilled'),(4,'{\"2\":{\"name\":\"Bamboo Utensils\",\"price\":13,\"quantity\":1},\"5\":{\"name\":\"Reusable Bottles\",\"price\":12,\"quantity\":1},\"6\":{\"name\":\"Organic Towels\",\"price\":20,\"quantity\":1}}',45,'2025-05-27 06:21:40','Fulfilled'),(5,'{\"7\":{\"name\":\"Bamboo Toothbrush\",\"price\":5,\"quantity\":2},\"9\":{\"name\":\"Solar Lamp\",\"price\":18,\"quantity\":1}}',28,'2025-05-27 07:48:23','Fulfilled'),(6,'{\"4\":{\"name\":\"Eco-friendly Straws\",\"price\":8,\"quantity\":1},\"6\":{\"name\":\"Organic Towels\",\"price\":20,\"quantity\":1}}',28,'2025-05-27 07:48:34','Fulfilled'),(7,'{\"11\":{\"name\":\"aaaa\",\"price\":10,\"quantity\":4}}',40,'2025-05-27 14:03:41','Fulfilled'),(8,'{\"1\":{\"name\":\"Reusable Bags\",\"price\":10,\"quantity\":1},\"3\":{\"name\":\"Biodegradable Packaging\",\"price\":15,\"quantity\":1}}',25,'2025-05-29 19:09:53','Fulfilled');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -175,6 +218,29 @@ LOCK TABLES `user` WRITE;
 INSERT INTO `user` VALUES (1,'admin','fahad@admin.com','scrypt:32768:8:1$eDFxyIsTg77CZgSv$0492e221204a22a8fc56083d5b3f7c42eb6d7d56aefab2ebd53c2e9b9edc87590ad70482b623b58ceb319d24f49870053517aca21ee3f3e5e74291bc7545b77c',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'info_db'
+--
+/*!50003 DROP PROCEDURE IF EXISTS `mark_all_orders_fulfilled` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `mark_all_orders_fulfilled`()
+BEGIN
+    UPDATE orders SET status = 'Fulfilled' WHERE status != 'Fulfilled';
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -185,4 +251,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-29 23:46:58
+-- Dump completed on 2025-05-30  5:12:42
